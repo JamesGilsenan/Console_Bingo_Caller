@@ -1,0 +1,6 @@
+C:\Users\james\OneDrive\Codecademy C#\Console Bingo Game\Console Bingo Game\bin\Debug\Console Bingo Game.exe.config
+C:\Users\james\OneDrive\Codecademy C#\Console Bingo Game\Console Bingo Game\bin\Debug\Console Bingo Game.exe
+C:\Users\james\OneDrive\Codecademy C#\Console Bingo Game\Console Bingo Game\bin\Debug\Console Bingo Game.pdb
+C:\Users\james\OneDrive\Codecademy C#\Console Bingo Game\Console Bingo Game\obj\Debug\Console Bingo Game.csprojResolveAssemblyReference.cache
+C:\Users\james\OneDrive\Codecademy C#\Console Bingo Game\Console Bingo Game\obj\Debug\Console Bingo Game.exe
+C:\Users\james\OneDrive\Codecademy C#\Console Bingo Game\Console Bingo Game\obj\Debug\Console Bingo Game.pdb
