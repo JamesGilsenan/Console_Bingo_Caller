@@ -18,6 +18,9 @@ namespace Console_Bingo_Game
         int Count
         { get; set; }
 
+        public bool IsGameOver
+        { get; private set; }
+
         string[] BingoCalls
         { get; set; }
 
@@ -27,24 +30,45 @@ namespace Console_Bingo_Game
             NumbersCalled = new int[90];
             MaxBalls = 90;
             Count = 0;
+            IsGameOver = false;
         }
 
-        public void Display()
+        //Methods
+        public void CallBall()
         {
+            if (Count >= 90)
+            {
+                Console.WriteLine("All balls have been called. Somebody must have won...");
+                return;
+            }
             int ball = RandomNumber();
-            Console.WriteLine($"\n- {BingoCalls[ball - 1]}, Number {ball} \n");
-
             NumbersCalled[Count] = ball;
             Count++;
+            Console.WriteLine($"\n- {BingoCalls[ball - 1]}, Number {ball} \n");
+
+            
             Array.Sort(NumbersCalled, 0, Count);
             Console.Write("Numbers already called: ");
             for(int i = 0; i < Count; i++)
             {
                 Console.Write(NumbersCalled[i] + ", ");
             }
+            Console.Write("\n");
         }
 
-        //Methods
+        public void DisplayInstructions()
+        {
+            Console.WriteLine("| - - - - - - - - - - - - - - - - |");
+            Console.WriteLine("|          Instructions           |");
+            Console.WriteLine("| - - - - - - - - - - - - - - - - |");
+            Console.WriteLine("| Enter C to Call the next Ball   |");
+            Console.WriteLine("| Enter Check to check for a Line |");
+            Console.WriteLine("| Enter Bingo to check for Bingo  |");
+            Console.WriteLine("| Enter Quit to exit application  |");
+            Console.WriteLine("| Enter i to Display Instructions |");
+            Console.WriteLine("| - - - - - - - - - - - - - - - - |");
+        }
+
         public int RandomNumber()
         {
             Random random = new Random();
@@ -54,17 +78,30 @@ namespace Console_Bingo_Game
             return ball;
         }
 
-        public bool CheckNumbers(int[] playerNums)
+        public void CheckNumbers(int[] playerNums)
         {
-            int n = 0;
+            int intNum = 0;
             int count = 0;
 
             for (int i = 0; i < playerNums.Length; i++)
             {
+                //does not account for userinput not being a num
                 Console.Write($"Enter number {i + 1}: ");
                 string num = Console.ReadLine();
-                n = Convert.ToInt32(num);
-                playerNums[i] = n;
+                if (!int.TryParse(num, out intNum))
+                {
+                    Console.WriteLine($"Sorry, {num} is not a number. Please enter a number to be checked");
+                    i--;
+                }
+                    
+                //intNum = Convert.ToInt32(num);
+                else if (playerNums.Contains(intNum))
+                {
+                    Console.WriteLine($"Sorry, you have already entered {num}. Please enter the next number to be checked");
+                    i--;
+                }
+                else
+                    playerNums[i] = intNum;
             }
 
             //check the player's number has been called
@@ -77,29 +114,30 @@ namespace Console_Bingo_Game
             }
             if (count == playerNums.Length && playerNums.Length == 9)
             {
-                Console.WriteLine("\n* Congrats! You got a line *");
-                return false;
+                Console.WriteLine("\n* Congrats! You got a line *\nLet's continue playing till we reach Bingo");
             }
 
             else if (count == playerNums.Length && playerNums.Length == 27)
             {
-                return true;
+                GameOver();
             }
             else
             { 
             Console.WriteLine("\n| Not all of those numbers were called. Sorry |");
             Console.WriteLine("| Let's continue playing |");
-            return false;
             }
+
+            Array.Clear(playerNums, 0, playerNums.Length);
         }
 
         public void GameOver()
         {
-            Console.WriteLine("\n*-------*");
-            Console.WriteLine("* BINGO *");
-            Console.WriteLine("*-------*");
+            IsGameOver = true;
+            Console.WriteLine("\n*--------------*");
+            Console.WriteLine("*    BINGO!    *");
+            Console.WriteLine("*--------------*");
 
-            Console.WriteLine("Thanks for playing");
+            Console.WriteLine("Game Over. Thanks for Playing!");
         }
 
         public void SetBingoCalls()
